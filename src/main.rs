@@ -1,8 +1,9 @@
-use std::error::Error;
 use std::fs;
 use std::io::Cursor;
 use std::path::Path;
+use std::{error::Error, io::Write as _};
 
+use crossterm::{event::read, event::Event as CEvent};
 use pulldown_cmark::{Event, HeadingLevel, Options, Parser, Tag, TagEnd};
 use zip::read::ZipArchive;
 
@@ -22,7 +23,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     let asset = latest
         .assets
-        .get(0)
+        .first()
         .ok_or(format!("No asset found on latest release {tag}"))?;
 
     println!("Downloading asset {}", asset.name);
@@ -106,17 +107,14 @@ async fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn pause() {
-    use std::io::Read;
-    use std::io::Write;
+pub fn pause() {
+    print!("Press any key to continue...");
+    std::io::stdout().flush().unwrap();
 
-    let mut stdin = std::io::stdin();
-    let mut stdout = std::io::stdout();
-
-    // We want the cursor to stay at the end of the line, so we print without a newline and flush manually.
-    write!(stdout, "Press any key to continue...").unwrap();
-    stdout.flush().unwrap();
-
-    // Read a single byte and discard
-    let _ = stdin.read(&mut [0u8]).unwrap();
+    loop {
+        match read().unwrap() {
+            CEvent::Key(_event) => break,
+            _ => continue,
+        }
+    }
 }
