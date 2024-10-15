@@ -18,6 +18,11 @@ jobs:
       contents: write
 
     steps:
+      # attempt to increase windows runner speed
+      # https://github.com/actions/runner-images/issues/7320#issuecomment-1477640384
+      - run: Set-MpPreference -DisableRealtimeMonitoring $true
+        shell: powershell
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -35,7 +40,6 @@ jobs:
             path: .last_commit_hash
             key: latest-commit-hash-${{ github.run_number }}
             restore-keys: 'latest-commit-hash'
-            save-always: true
 
       - name: Generate changelog
         if: ${{ github.event_name == 'schedule' || inputs.schedule }}
