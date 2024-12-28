@@ -11,7 +11,7 @@ But if you're interested in getting nightly builds customized to your specific C
 At the top you'll see something like
 ```
 Available CPUs for this target:
-    native                  - Select the CPU of the current host (currently alderlake).
+    native                  - Select the CPU of the current host (currently znver1).
 ```
 In my case it was `alderlake`. In [build.yml](https://github.com/linhnt89/zed-windows-builds/blob/main/.github/workflows/build.yml), change the `znver1` part in the `-C target-cpu=znver1` to your specific CPU.
 
