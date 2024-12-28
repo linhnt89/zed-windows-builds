@@ -13,7 +13,7 @@ At the top you'll see something like
 Available CPUs for this target:
     native                  - Select the CPU of the current host (currently znver1).
 ```
-In my case it was `alderlake`. In [build.yml](https://github.com/linhnt89/zed-windows-builds/blob/main/.github/workflows/build.yml), change the `znver1` part in the `-C target-cpu=znver1` to your specific CPU.
+In my case it was `znver1`. In [build.yml](https://github.com/linhnt89/zed-windows-builds/blob/main/.github/workflows/build.yml), change the `znver1` part in the `-C target-cpu=znver1` to your specific CPU.
 
 ## App
 
